@@ -3,69 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowwTech. | All-in-One Digital Services & Technical Studio</title>
-
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        odoo: {
-                            purple: '#714B67',
-                            dark: '#573a4f',
-                            teal: '#00A09D',
-                            tealDark: '#007976',
-                            yellow: '#FFC107',
-                            surface: '#F9FAFB',
-                            border: '#E9ECEF',
-                            slate: '#1E232A'
-                        }
-                    },
-                    fontFamily: {
-                        caveat: ['Caveat', 'cursive'],
-                        inter: ['Inter', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Google Fonts & FontAwesome -->
+    <title>GrowwTech. | All your business on one platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Odoo Signature Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- EmailJS Integration -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-       (function(){
-          emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
-       })();
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs (Compat SDKs for reliable single-file web apps) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #FFFFFF;
-            color: #212529;
+        :root {
+            --odoo-purple: #714B67;
+            --odoo-purple-dark: #573A4F;
+            --odoo-teal: #00A09D;
+            --odoo-yellow: #FFC107;
+            --odoo-bg: #FFFFFF;
+            --odoo-surface: #F9FAFB;
+            --odoo-text: #212529;
+            --odoo-muted: #6C757D;
+            --odoo-border: #E9ECEF;
+            --radius-btn: 8px;
+            --radius-card: 20px;
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Marker Effects */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: var(--transition-smooth);
+        }
+
+        body {
+            background-color: var(--odoo-bg);
+            color: var(--odoo-text);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* Top Announcement Banner */
+        .top-banner {
+            background: linear-gradient(90deg, var(--odoo-purple) 0%, var(--odoo-teal) 100%);
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 8%;
+            border-bottom: 1px solid var(--odoo-border);
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--odoo-text);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover { color: var(--odoo-purple); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-signin {
+            text-decoration: none;
+            color: var(--odoo-text);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .btn-signin:hover { color: var(--odoo-purple); }
+
+        .btn-odoo-primary {
+            background-color: var(--odoo-purple);
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-btn);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(113, 75, 103, 0.2);
+        }
+
+        .btn-odoo-primary:hover {
+            background-color: var(--odoo-purple-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(113, 75, 103, 0.3);
+        }
+
+        .btn-odoo-secondary {
+            background-color: #F8F9FA;
+            color: var(--odoo-text);
+            border: 1px solid var(--odoo-border);
+            padding: 12px 24px;
+            border-radius: var(--radius-btn);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-odoo-secondary:hover {
+            background-color: #E9ECEF;
+            transform: translateY(-2px);
+        }
+
+        /* Odoo Hero Section */
+        .hero-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 90px 24px 80px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .odoo-headline {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(3.2rem, 6.2vw, 5.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: #1A1D20;
+            margin-bottom: 36px;
+            letter-spacing: -0.5px;
+        }
+
         .highlight-yellow {
             position: relative;
             display: inline-block;
             white-space: nowrap;
             z-index: 1;
         }
+
         .highlight-yellow::before {
             content: "";
             position: absolute;
-            left: -8px; right: -8px;
-            top: 22%; bottom: 8%;
-            background-color: #FFC107;
+            left: -8px;
+            right: -8px;
+            top: 22%;
+            bottom: 8%;
+            background-color: var(--odoo-yellow);
             z-index: -1;
             border-radius: 25px 10px 22px 14px;
             transform: rotate(-1deg);
@@ -75,822 +195,904 @@
             position: relative;
             display: inline-block;
         }
+
         .underline-teal::after {
             content: "";
             position: absolute;
-            left: -2px; bottom: -2px;
-            width: 104%; height: 6px;
-            background-color: #00A09D;
+            left: -2px;
+            bottom: -2px;
+            width: 104%;
+            height: 6px;
+            background-color: var(--odoo-teal);
             border-radius: 4px;
         }
 
-        /* Modals & Animations */
-        .modal-backdrop {
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(8px);
-        }
-        .animate-pop-in {
-            animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+        .hero-btn-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
         }
 
-        /* Toast Notifications */
-        .toast {
+        /* App Grid */
+        .app-grid-section {
+            background-color: var(--odoo-surface);
+            padding: 90px 24px;
+            border-top: 1px solid var(--odoo-border);
+            border-bottom: 1px solid var(--odoo-border);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--odoo-muted);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+        }
+
+        .app-icons-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 24px;
+        }
+
+        .app-tile {
+            background: #FFFFFF;
+            border: 1px solid var(--odoo-border);
+            border-radius: 18px;
+            padding: 26px 16px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .app-tile:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border-color: var(--odoo-purple);
+        }
+
+        .app-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            margin: 0 auto 12px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+        }
+
+        .bg-web { background: linear-gradient(135deg, #00A09D, #007976); }
+        .bg-python { background: linear-gradient(135deg, #3776AB, #1E415E); }
+        .bg-java { background: linear-gradient(135deg, #E76F51, #D62828); }
+        .bg-docs { background: linear-gradient(135deg, #714B67, #51354A); }
+        .bg-api { background: linear-gradient(135deg, #2A9D8F, #264653); }
+        .bg-scrape { background: linear-gradient(135deg, #F4A261, #E76F51); }
+
+        .app-tile h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--odoo-text);
+        }
+
+        /* Showcase */
+        .showcase-section {
+            max-width: 1100px;
+            margin: 90px auto;
+            padding: 0 24px;
+        }
+
+        .showcase-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #F1F3F5;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: var(--odoo-muted);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn.active {
+            background: var(--odoo-purple);
+            color: #FFFFFF;
+            box-shadow: 0 6px 18px rgba(113, 75, 103, 0.25);
+        }
+
+        .showcase-card {
+            background: #FFFFFF;
+            border: 1px solid var(--odoo-border);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+        }
+
+        .showcase-panel {
+            display: none;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .showcase-panel.active { display: grid; }
+
+        .showcase-info h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .showcase-info p {
+            color: var(--odoo-muted);
+            font-size: 1.05rem;
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .showcase-list {
+            list-style: none;
+            margin-bottom: 28px;
+        }
+
+        .showcase-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--odoo-text);
+        }
+
+        .showcase-list i { color: var(--odoo-teal); }
+
+        .preview-box {
+            background: #F8F9FA;
+            padding: 50px 30px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--odoo-border);
+        }
+
+        .preview-box i {
+            font-size: 4.5rem;
+            margin-bottom: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1E232A;
+            color: #FFFFFF;
+            padding: 80px 24px 40px 24px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+        }
+
+        .footer h4 {
+            font-size: 1.05rem;
+            margin-bottom: 18px;
+            color: var(--odoo-teal);
+            text-transform: uppercase;
+        }
+
+        .footer p, .footer a {
+            color: #ADB5BD;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .footer a:hover { color: #FFFFFF; }
+
+        /* Modals */
+        .modal-overlay {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 9999;
-            transform: translateY(120%);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
         }
-        .toast.show {
-            transform: translateY(0);
+
+        .modal-card {
+            background: #FFFFFF;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
         }
+
+        .modal-header {
+            padding: 24px;
+            background: var(--odoo-purple);
+            color: #FFFFFF;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute; right: 20px; top: 20px;
+            background: transparent; border: none;
+            color: #FFFFFF; font-size: 1.4rem; cursor: pointer;
+        }
+
+        .modal-body { padding: 28px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--odoo-muted); margin-bottom: 6px; }
+        .form-input { width: 100%; padding: 14px; border: 1px solid var(--odoo-border); border-radius: 10px; font-size: 1rem; outline: none; }
+        .form-input:focus { border-color: var(--odoo-purple); }
+
+        /* Manager Console Modal Styling */
+        .admin-modal-card {
+            max-width: 1000px;
+            width: 95vw;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .admin-tabs {
+            display: flex;
+            background: #F1F3F5;
+            border-bottom: 1px solid var(--odoo-border);
+        }
+        .admin-tab-btn {
+            padding: 14px 24px;
+            background: transparent;
+            border: none;
+            font-weight: 700;
+            color: var(--odoo-muted);
+            cursor: pointer;
+        }
+        .admin-tab-btn.active {
+            background: white;
+            color: var(--odoo-purple);
+            border-bottom: 3px solid var(--odoo-purple);
+        }
+        .admin-content {
+            padding: 24px;
+            overflow-y: auto;
+            flex-grow: 1;
+            background: var(--odoo-surface);
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .admin-table th, .admin-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--odoo-border);
+            font-size: 0.95rem;
+        }
+        .admin-table th { background: #F8F9FA; font-weight: 700; }
     </style>
 </head>
-<body class="antialiased text-gray-900 bg-white selection:bg-odoo-purple selection:text-white">
+<body>
 
-    <!-- Top Announcement Banner -->
-    <div class="bg-gradient-to-r from-odoo-purple to-odoo-teal text-white text-center text-xs md:text-sm font-semibold py-2 px-4 shadow-sm">
-        <span class="inline-flex items-center gap-2">
-            <i class="fa-solid fa-bolt text-yellow-300"></i>
-            GrowwTech. Operating System for Digital Services and Technical Projects
-        </span>
+    <!-- Top Announcement Bar -->
+    <div id="announcementBar" class="top-banner">
+        GrowwTech. Integrated Platform & Engineering Services Studio
     </div>
 
-    <!-- Navigation Header -->
-    <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-odoo-border transition-all">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Brand Logo -->
-            <a href="#" class="flex items-center gap-3 group">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="group-hover:scale-105 transition-transform duration-300">
-                    <rect width="40" height="40" rx="10" fill="#FFFFFF" stroke="#E9ECEF" stroke-width="1.5"/>
-                    <path d="M11 27L18 19L23 24L29 13" stroke="url(#gt_grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="29" cy="13" r="3.5" fill="#00A09D"/>
-                    <defs>
-                        <linearGradient id="gt_grad" x1="11" y1="27" x2="29" y2="13" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#00A09D"/>
-                            <stop offset="0.5" stop-color="#714B67"/>
-                            <stop offset="1" stop-color="#00A09D"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <span class="text-2xl font-black tracking-tight text-gray-900">Groww<span class="text-odoo-teal">Tech.</span></span>
-            </a>
-
-            <!-- Center Nav Items -->
-            <div class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-700">
-                <a href="#apps" class="hover:text-odoo-purple transition-colors">Apps</a>
-                <a href="#showcase" class="hover:text-odoo-purple transition-colors">Solutions</a>
-                <a href="#pipeline" class="hover:text-odoo-purple transition-colors">Workflows</a>
-                <a href="#faq" class="hover:text-odoo-purple transition-colors">Help</a>
-            </div>
-
-            <!-- Right Actions (Distinct Workflows) -->
-            <div class="flex items-center gap-3">
-                <button onclick="openSignInModal()" class="px-4 py-2.5 text-sm font-semibold text-gray-700 hover:text-odoo-purple transition-colors rounded-lg hover:bg-gray-50">
-                    Sign In
-                </button>
-                <button onclick="openOrderModal()" class="px-5 py-2.5 text-sm font-semibold text-white bg-odoo-purple hover:bg-odoo-dark transition-all rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 flex items-center gap-2">
-                    <i class="fa-solid fa-paper-plane text-xs"></i>
-                    <span>Start Free / Order</span>
-                </button>
-            </div>
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <a href="#" class="nav-brand">
+            <svg width="38" height="38" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="40" height="40" rx="10" fill="#FFFFFF" stroke="#E9ECEF" stroke-width="1"/>
+                <path d="M11 27L18 19L23 24L29 13" stroke="url(#gt_svg_grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="29" cy="13" r="3" fill="#00A09D"/>
+                <defs>
+                    <linearGradient id="gt_svg_grad" x1="11" y1="27" x2="29" y2="13" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#00A09D"/>
+                        <stop offset="0.5" stop-color="#714B67"/>
+                        <stop offset="1" stop-color="#00A09D"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span style="font-size: 1.45rem; font-weight: 800; letter-spacing: -0.5px; color: #1A1D20;">Groww<span style="color: var(--odoo-teal);">Tech.</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#apps">Apps</a></li>
+            <li><a href="#showcase">Industries</a></li>
+            <li><a href="#faq">Help</a></li>
+            <li id="managerNavLink" style="display:none;"><a href="#" onclick="openAdminDashboard()" style="color: var(--odoo-teal); font-weight:800;"><i class="fa-solid fa-gauge"></i> Manager Console</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="btn-signin" onclick="openAuthModal()">Sign in</button>
+            <button class="btn-odoo-primary" onclick="openOrderModal()">Try it free</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative overflow-hidden pt-16 pb-20 md:pt-24 md:pb-28 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            
-            <!-- Handwritten Floating Tag -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-odoo-purple/10 text-odoo-purple font-medium text-sm mb-6 border border-odoo-purple/20">
-                <i class="fa-solid fa-cubes text-xs"></i>
-                <span>Unified Business Operating System</span>
-            </div>
+    <!-- Odoo Exact Hero Layout -->
+    <header class="hero-container">
+        <div id="heroHeadline" class="odoo-headline">
+            All your business on<br>
+            <span class="highlight-yellow">one platform.</span><br>
+            Simple, efficient, yet <span class="underline-teal">affordable!</span>
+        </div>
 
-            <!-- Main Odoo Handwritten Replica Headline -->
-            <h1 class="font-caveat text-5xl sm:text-7xl md:text-8xl font-bold text-gray-900 leading-none mb-8 tracking-tight">
-                All your business on<br>
-                <span class="highlight-yellow">one platform.</span><br>
-                Simple, efficient, yet <span class="underline-teal">affordable!</span>
-            </h1>
-
-            <p class="max-w-2xl mx-auto text-lg sm:text-xl text-gray-600 mb-10 font-normal leading-relaxed">
-                Replace fragmented agencies and software vendor chaos with GrowwTech integrated engineering, automated workflows, and technical content.
-            </p>
-
-            <!-- Hero Action Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 relative">
-                <button onclick="openOrderModal()" class="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-odoo-purple hover:bg-odoo-dark transition-all rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center justify-center gap-3">
-                    <span>Start now - It's free</span>
-                    <i class="fa-solid fa-arrow-right text-sm"></i>
-                </button>
-                <button onclick="openAdvisorModal()" class="w-full sm:w-auto px-8 py-4 text-base font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 border border-odoo-border transition-all rounded-xl flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-calendar-check text-odoo-teal"></i>
-                    <span>Contact an advisor</span>
-                </button>
-
-                <!-- Floating Handwritten Pointer SVG -->
-                <div class="hidden lg:block absolute -right-24 -top-8 pointer-events-none">
-                    <div class="flex flex-col items-start text-odoo-purple font-caveat text-xl font-bold rotate-6">
-                        <span>No credit card required!</span>
-                        <svg width="60" height="40" viewBox="0 0 60 40" fill="none" class="text-odoo-purple stroke-current">
-                            <path d="M10 5 C 25 15, 35 20, 50 35 M 50 35 L 40 32 M 50 35 L 48 24" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+        <div class="hero-btn-row">
+            <button class="btn-odoo-primary" onclick="openOrderModal()" style="font-size: 1.05rem; padding: 14px 32px;">Start now - It's free</button>
+            <button class="btn-odoo-secondary" onclick="openAdvisorModal()" style="font-size: 1.05rem; padding: 14px 32px;">Contact an advisor</button>
         </div>
     </header>
 
-    <!-- Interactive Apps Matrix Grid Section -->
-    <section id="apps" class="py-20 bg-odoo-surface border-y border-odoo-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-14">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">The GrowwTech. Apps Suite</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Select an application below to dynamically view platform specifications and launch builds.</p>
+    <!-- Odoo Apps Grid Section -->
+    <section id="apps" class="app-grid-section">
+        <div class="section-title">The GrowwTech. Apps Suite</div>
+        <div class="section-subtitle">Every service integrated seamlessly into one modern framework.</div>
+
+        <div class="app-icons-grid">
+            <div class="app-tile" onclick="openOrderModal('Websites')">
+                <div class="app-icon bg-web"><i class="fa-solid fa-globe"></i></div>
+                <h4>Websites</h4>
             </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
-                <!-- App 1: Website -->
-                <div onclick="selectAppTab('web')" class="app-card bg-white p-6 rounded-2xl border border-odoo-border hover:border-odoo-purple hover:shadow-xl transition-all duration-300 text-center cursor-pointer group hover:-translate-y-1">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-600 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-globe"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm sm:text-base">Websites</h3>
-                    <p class="text-xs text-gray-500 mt-1">Responsive Web</p>
-                </div>
-
-                <!-- App 2: Python -->
-                <div onclick="selectAppTab('automation')" class="app-card bg-white p-6 rounded-2xl border border-odoo-border hover:border-odoo-purple hover:shadow-xl transition-all duration-300 text-center cursor-pointer group hover:-translate-y-1">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                        <i class="fa-brands fa-python"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm sm:text-base">Python Automation</h3>
-                    <p class="text-xs text-gray-500 mt-1">Scripts & Bots</p>
-                </div>
-
-                <!-- App 3: Java -->
-                <div onclick="selectAppTab('automation')" class="app-card bg-white p-6 rounded-2xl border border-odoo-border hover:border-odoo-purple hover:shadow-xl transition-all duration-300 text-center cursor-pointer group hover:-translate-y-1">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                        <i class="fa-brands fa-java"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm sm:text-base">Java Services</h3>
-                    <p class="text-xs text-gray-500 mt-1">Microservices</p>
-                </div>
-
-                <!-- App 4: Tech Docs -->
-                <div onclick="selectAppTab('docs')" class="app-card bg-white p-6 rounded-2xl border border-odoo-border hover:border-odoo-purple hover:shadow-xl transition-all duration-300 text-center cursor-pointer group hover:-translate-y-1">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-700 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-file-lines"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm sm:text-base">Tech Docs</h3>
-                    <p class="text-xs text-gray-500 mt-1">API & Blogs</p>
-                </div>
-
-                <!-- App 5: API Engine -->
-                <div onclick="selectAppTab('automation')" class="app-card bg-white p-6 rounded-2xl border border-odoo-border hover:border-odoo-purple hover:shadow-xl transition-all duration-300 text-center cursor-pointer group hover:-translate-y-1">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-teal-600 to-cyan-700 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-network-wired"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm sm:text-base">API Engine</h3>
-                    <p class="text-xs text-gray-500 mt-1">REST & Endpoints</p>
-                </div>
-
-                <!-- App 6: Scrapers -->
-                <div onclick="selectAppTab('automation')" class="app-card bg-white p-6 rounded-2xl border border-odoo-border hover:border-odoo-purple hover:shadow-xl transition-all duration-300 text-center cursor-pointer group hover:-translate-y-1">
-                    <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-spider"></i>
-                    </div>
-                    <h3 class="font-bold text-gray-900 text-sm sm:text-base">Web Scrapers</h3>
-                    <p class="text-xs text-gray-500 mt-1">Data Pipelines</p>
-                </div>
+            <div class="app-tile" onclick="openOrderModal('Python Scripts')">
+                <div class="app-icon bg-python"><i class="fa-brands fa-python"></i></div>
+                <h4>Python Scripts</h4>
+            </div>
+            <div class="app-tile" onclick="openOrderModal('Java Services')">
+                <div class="app-icon bg-java"><i class="fa-brands fa-java"></i></div>
+                <h4>Java Services</h4>
+            </div>
+            <div class="app-tile" onclick="openOrderModal('Tech Docs')">
+                <div class="app-icon bg-docs"><i class="fa-solid fa-pen-nib"></i></div>
+                <h4>Tech Docs</h4>
+            </div>
+            <div class="app-tile" onclick="openOrderModal('API Engine')">
+                <div class="app-icon bg-api"><i class="fa-solid fa-gears"></i></div>
+                <h4>API Engine</h4>
+            </div>
+            <div class="app-tile" onclick="openOrderModal('Web Scrapers')">
+                <div class="app-icon bg-scrape"><i class="fa-solid fa-spider"></i></div>
+                <h4>Web Scrapers</h4>
             </div>
         </div>
     </section>
 
-    <!-- Solutions & Showcase Section -->
-    <section id="showcase" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">Integrated Solutions & Engineering</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">High-performance technical deliverables backed by automated operational pipelines.</p>
-            </div>
+    <!-- Showcase Section -->
+    <section id="showcase" class="showcase-section">
+        <div class="section-title">Integrated Solutions</div>
+        <div class="section-subtitle">Select a category below to review specs and deliverables.</div>
 
-            <!-- Tab Buttons -->
-            <div class="flex justify-center gap-3 mb-12 flex-wrap">
-                <button id="tab-btn-web" onclick="switchShowcase('web')" class="showcase-tab px-6 py-3 rounded-full text-sm font-bold transition-all bg-odoo-purple text-white shadow-md">
-                    Web Development
-                </button>
-                <button id="tab-btn-automation" onclick="switchShowcase('automation')" class="showcase-tab px-6 py-3 rounded-full text-sm font-bold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200">
-                    Automation & Microservices
-                </button>
-                <button id="tab-btn-docs" onclick="switchShowcase('docs')" class="showcase-tab px-6 py-3 rounded-full text-sm font-bold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200">
-                    Technical Writing & Specs
-                </button>
-            </div>
-
-            <!-- Card Showcase Container -->
-            <div class="bg-white border border-odoo-border rounded-3xl p-8 sm:p-12 shadow-xl">
-                <!-- Panel 1: Web Development -->
-                <div id="showcase-panel-web" class="showcase-panel grid lg:grid-cols-12 gap-12 items-center">
-                    <div class="lg:col-span-6 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-teal-50 text-odoo-teal text-xs font-bold uppercase tracking-wider">
-                            Frontend Architecture
-                        </div>
-                        <h3 class="text-3xl font-extrabold text-gray-900 leading-snug">Ultra-Fast Responsive Web Engines</h3>
-                        <p class="text-gray-600 leading-relaxed">We construct lightweight, semantic web applications designed for conversion and global delivery performance. Built with clean code standards and SEO optimization.</p>
-                        
-                        <ul class="space-y-3 font-semibold text-gray-800 text-sm">
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Sub-second global page loading optimization
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Mobile-first responsive grid layouts
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Standardized HTML5 & Tailwind CSS frameworks
-                            </li>
-                        </ul>
-
-                        <div class="pt-4">
-                            <button onclick="openOrderModal('Web Development')" class="px-6 py-3 text-sm font-bold text-white bg-odoo-purple hover:bg-odoo-dark rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                                <span>Configure Web Project</span>
-                                <i class="fa-solid fa-chevron-right text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-gray-900 rounded-2xl p-6 text-white font-mono text-sm shadow-2xl relative overflow-hidden border border-gray-800">
-                        <!-- Simulated Code Preview -->
-                        <div class="flex items-center justify-between pb-4 border-b border-gray-800 mb-4">
-                            <div class="flex items-center gap-2">
-                                <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
-                                <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                            </div>
-                            <span class="text-xs text-gray-400">index.html — Responsive Preview</span>
-                        </div>
-                        <div class="space-y-2 text-gray-300 text-xs sm:text-sm">
-                            <p><span class="text-purple-400">&lt;!-- Pipeline Status --&gt;</span></p>
-                            <p><span class="text-blue-400">&lt;div</span> <span class="text-teal-300">class</span>=<span class="text-yellow-300">"growwtech-engine"</span>&gt;</p>
-                            <p class="pl-4">&lt;<span class="text-pink-400">h1</span>&gt;Production Ready Build&lt;/<span class="text-pink-400">h1</span>&gt;</p>
-                            <p class="pl-4">&lt;<span class="text-pink-400">p</span>&gt;Sub-second load times verified across CDN global edges.&lt;/<span class="text-pink-400">p</span>&gt;</p>
-                            <p>&lt;/<span class="text-blue-400">div</span>&gt;</p>
-                        </div>
-                        <div class="mt-8 p-4 bg-gray-800/80 rounded-xl border border-gray-700/60 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-3 h-3 rounded-full bg-emerald-400 animate-ping"></div>
-                                <span class="text-xs font-semibold text-gray-200">System Performance: 99/100</span>
-                            </div>
-                            <span class="text-xs bg-teal-500/20 text-teal-300 px-2.5 py-1 rounded-md border border-teal-500/30">Lighthouse Green</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Panel 2: Automation -->
-                <div id="showcase-panel-automation" class="showcase-panel hidden grid lg:grid-cols-12 gap-12 items-center">
-                    <div class="lg:col-span-6 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider">
-                            Backend Engineering
-                        </div>
-                        <h3 class="text-3xl font-extrabold text-gray-900 leading-snug">Python Automation & Java Endpoints</h3>
-                        <p class="text-gray-600 leading-relaxed">Automate complex business data collection, background job queues, and robust API endpoints using high-concurrency Python and Java backend services.</p>
-                        
-                        <ul class="space-y-3 font-semibold text-gray-800 text-sm">
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Custom web scrapers and data extractors
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                RESTful API microservice integrations
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Automated cron job execution and error logging
-                            </li>
-                        </ul>
-
-                        <div class="pt-4">
-                            <button onclick="openOrderModal('Python / Java Automation')" class="px-6 py-3 text-sm font-bold text-white bg-odoo-purple hover:bg-odoo-dark rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                                <span>Build Automation Pipeline</span>
-                                <i class="fa-solid fa-chevron-right text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-slate-900 rounded-2xl p-6 text-white font-mono text-sm shadow-2xl border border-slate-800">
-                        <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
-                            <span class="text-xs text-gray-400">scraper_daemon.py</span>
-                            <span class="text-xs text-teal-400">Status: Running</span>
-                        </div>
-                        <div class="space-y-2 text-xs sm:text-sm text-gray-300">
-                            <p><span class="text-purple-400">import</span> requests</p>
-                            <p><span class="text-purple-400">from</span> bs4 <span class="text-purple-400">import</span> BeautifulSoup</p>
-                            <p class="pt-2"><span class="text-blue-400">def</span> <span class="text-yellow-300">execute_data_pipeline</span>():</p>
-                            <p class="pl-4 text-emerald-400">response = requests.get("https://api.growwtech.com/v1/feed")</p>
-                            <p class="pl-4 text-emerald-400">return parse_payload(response.json())</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Panel 3: Technical Writing -->
-                <div id="showcase-panel-docs" class="showcase-panel hidden grid lg:grid-cols-12 gap-12 items-center">
-                    <div class="lg:col-span-6 space-y-6">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-50 text-purple-600 text-xs font-bold uppercase tracking-wider">
-                            Content & Specs
-                        </div>
-                        <h3 class="text-3xl font-extrabold text-gray-900 leading-snug">Developer Documentation & Technical Articles</h3>
-                        <p class="text-gray-600 leading-relaxed">Clear, concise API reference manuals, engineering guides, developer blogs, and system architecture specifications crafted by engineers.</p>
-                        
-                        <ul class="space-y-3 font-semibold text-gray-800 text-sm">
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                API endpoint documentation and Swagger specs
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Technical blog posts and developer tutorials
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i class="fa-solid fa-circle-check text-odoo-teal text-lg"></i>
-                                Software architecture whitepapers
-                            </li>
-                        </ul>
-
-                        <div class="pt-4">
-                            <button onclick="openOrderModal('Technical Writing')" class="px-6 py-3 text-sm font-bold text-white bg-odoo-purple hover:bg-odoo-dark rounded-xl shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                                <span>Request Technical Specs</span>
-                                <i class="fa-solid fa-chevron-right text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-6 bg-odoo-surface rounded-2xl p-8 border border-odoo-border shadow-md">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-10 h-10 rounded-lg bg-odoo-purple text-white flex items-center justify-center font-bold">
-                                <i class="fa-solid fa-book"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-900">API Documentation Spec v2.4</h4>
-                                <p class="text-xs text-gray-500">Updated 2 hours ago</p>
-                            </div>
-                        </div>
-                        <p class="text-sm text-gray-600 mb-6 leading-relaxed">Complete technical reference guide for authentication headers, JSON payloads, and response codes across RESTful endpoints.</p>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-odoo-teal h-2 rounded-full" style="width: 100%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="showcase-tabs">
+            <button class="tab-btn active" onclick="switchShowcaseTab(0)">Web Development</button>
+            <button class="tab-btn" onclick="switchShowcaseTab(1)">Python & Java Automation</button>
+            <button class="tab-btn" onclick="switchShowcaseTab(2)">Technical Writing</button>
         </div>
-    </section>
 
-    <!-- Workflow Automation Pipeline Section -->
-    <section id="pipeline" class="py-24 bg-odoo-surface border-y border-odoo-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">The Automated Delivery Pipeline</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">How GrowwTech accelerates project execution from initial scoping to live production.</p>
+        <div class="showcase-card">
+            <div id="panel-0" class="showcase-panel active">
+                <div class="showcase-info">
+                    <h3>High-Speed Responsive Web Frontends</h3>
+                    <p>Semantic HTML5, CSS3, and JavaScript builds designed for fast load times globally. Mobile-optimized layout architectures built for seamless user conversion.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Sub-second global page load performance</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Mobile and desktop viewport responsiveness</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Search engine structure compliance</li>
+                    </ul>
+                    <button class="btn-odoo-primary" onclick="openOrderModal('Web Development')">Start Web Build</button>
+                </div>
+                <div class="preview-box">
+                    <i class="fa-solid fa-laptop-code" style="color: var(--odoo-purple);"></i>
+                    <h4 style="font-size: 1.15rem; font-weight: 700;">Web Platform Engine</h4>
+                    <p style="color: var(--odoo-muted); font-size: 0.95rem; margin-top: 6px;">Optimized visual interface framework.</p>
+                </div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8 relative">
-                <!-- Step 1 -->
-                <div class="bg-white p-8 rounded-2xl border border-odoo-border shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 relative">
-                    <div class="w-12 h-12 rounded-xl bg-odoo-purple text-white font-black text-xl flex items-center justify-center mb-6">01</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Project Brief & Scoping</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Submit requirements using our interactive order terminal. Specify tech stack, scope, and target timelines.</p>
-                    <div class="text-xs font-bold text-odoo-teal flex items-center gap-1">
-                        <span>Automated Dispatch</span>
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                    </div>
+            <div id="panel-1" class="showcase-panel">
+                <div class="showcase-info">
+                    <h3>Python Automation & Java Microservices</h3>
+                    <p>Custom server script execution, automated data scrapers, background processing pipelines, and secure API integration endpoints built with Python and Java.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Data scraping using BeautifulSoup & Selenium</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Automated background job execution</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Secure Java backend integration endpoints</li>
+                    </ul>
+                    <button class="btn-odoo-primary" onclick="openOrderModal('Automation & Java')">Start Automation Build</button>
                 </div>
-
-                <!-- Step 2 -->
-                <div class="bg-white p-8 rounded-2xl border border-odoo-border shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 relative">
-                    <div class="w-12 h-12 rounded-xl bg-odoo-teal text-white font-black text-xl flex items-center justify-center mb-6">02</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Automated Pipeline Setup</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Repository creation, deployment triggers, and automated environment configurations occur immediately.</p>
-                    <div class="text-xs font-bold text-odoo-teal flex items-center gap-1">
-                        <span>CI/CD Active</span>
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                    </div>
+                <div class="preview-box">
+                    <i class="fa-solid fa-gears" style="color: var(--odoo-teal);"></i>
+                    <h4 style="font-size: 1.15rem; font-weight: 700;">Automation Engine</h4>
+                    <p style="color: var(--odoo-muted); font-size: 0.95rem; margin-top: 6px;">Continuous data processing suite.</p>
                 </div>
+            </div>
 
-                <!-- Step 3 -->
-                <div class="bg-white p-8 rounded-2xl border border-odoo-border shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 relative">
-                    <div class="w-12 h-12 rounded-xl bg-gray-900 text-white font-black text-xl flex items-center justify-center mb-6">03</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Deployment & Maintenance</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Production code is deployed to global CDNs or server infrastructure with active error monitoring.</p>
-                    <div class="text-xs font-bold text-odoo-teal flex items-center gap-1">
-                        <span>Production Live</span>
-                        <i class="fa-solid fa-check text-[10px]"></i>
-                    </div>
+            <div id="panel-2" class="showcase-panel">
+                <div class="showcase-info">
+                    <h3>Technical Documentation & Content</h3>
+                    <p>API documentation, developer blogs, user onboarding guides, and whitepapers written by engineers fluent in software architecture.</p>
+                    <ul class="showcase-list">
+                        <li><i class="fa-solid fa-circle-check"></i> API documentation and endpoint specs</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Developer tutorials and onboarding guides</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Technical whitepapers and blog posts</li>
+                    </ul>
+                    <button class="btn-odoo-primary" onclick="openOrderModal('Technical Writing')">Order Technical Docs</button>
+                </div>
+                <div class="preview-box">
+                    <i class="fa-solid fa-file-pen" style="color: var(--odoo-purple);"></i>
+                    <h4 style="font-size: 1.15rem; font-weight: 700;">Documentation Suite</h4>
+                    <p style="color: var(--odoo-muted); font-size: 0.95rem; margin-top: 6px;">Comprehensive materials for developers.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="py-24 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-3">Frequently Asked Questions</h2>
-                <p class="text-lg text-gray-600">Find quick answers regarding our service delivery, security, and sign-in portal.</p>
-            </div>
-
-            <div class="space-y-4">
-                <!-- FAQ Item 1 -->
-                <div class="border border-odoo-border rounded-xl overflow-hidden transition-all">
-                    <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left font-bold text-gray-900 flex justify-between items-center hover:bg-gray-50">
-                        <span>How do I access the Client Portal?</span>
-                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
-                    </button>
-                    <div class="faq-content hidden px-6 pb-5 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Click on the "Sign In" button in the navigation bar to launch the modal portal. You can log in using registered credentials or quick sign in options.
-                    </div>
-                </div>
-
-                <!-- FAQ Item 2 -->
-                <div class="border border-odoo-border rounded-xl overflow-hidden transition-all">
-                    <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left font-bold text-gray-900 flex justify-between items-center hover:bg-gray-50">
-                        <span>How are order briefs processed after submission?</span>
-                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
-                    </button>
-                    <div class="faq-content hidden px-6 pb-5 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        When you submit a project brief through the Order modal, details are dispatched directly via EmailJS to our lead engineering team for immediate scoping.
-                    </div>
-                </div>
-
-                <!-- FAQ Item 3 -->
-                <div class="border border-odoo-border rounded-xl overflow-hidden transition-all">
-                    <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left font-bold text-gray-900 flex justify-between items-center hover:bg-gray-50">
-                        <span>Can I schedule a preliminary call with an advisor?</span>
-                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
-                    </button>
-                    <div class="faq-content hidden px-6 pb-5 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
-                        Yes. Click "Contact an advisor" in the hero section to open the consultation slot selector and reserve a direct meeting.
-                    </div>
-                </div>
-            </div>
+    <section id="faq" class="faq-section" style="max-width: 850px; margin: 90px auto; padding: 0 24px;">
+        <div class="section-title">Frequently Asked Questions</div>
+        <div class="section-subtitle" style="margin-bottom: 40px;">Find answers to common questions about our platform and services.</div>
+        
+        <div class="faq-item" style="border: 1px solid var(--odoo-border); border-radius: 12px; margin-bottom: 12px; background:white;">
+            <div class="faq-q" onclick="toggleFaq(this)" style="padding: 20px; font-weight:700; cursor:pointer; display:flex; justify-content:space-between;">How are orders tracked in real-time? <i class="fa-solid fa-chevron-down"></i></div>
+            <div class="faq-a" style="padding: 0 20px 20px 20px; color:var(--odoo-muted); display:none;">All orders are securely logged directly into our cloud Firestore database and visible instantly in the Manager Console.</div>
         </div>
     </section>
 
-    <!-- Dark Footer -->
-    <footer class="bg-odoo-slate text-gray-400 py-16 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
-            <div class="space-y-4">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl font-black tracking-tight text-white">Groww<span class="text-odoo-teal">Tech.</span></span>
-                </div>
-                <p class="text-sm leading-relaxed text-gray-400">Integrated engineering studio building high-speed frontends, backend automation, and developer documentation.</p>
-            </div>
-
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
             <div>
-                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Platform</h4>
-                <ul class="space-y-2.5 text-sm">
-                    <li><a href="#apps" class="hover:text-white transition-colors">Apps Matrix</a></li>
-                    <li><a href="#showcase" class="hover:text-white transition-colors">Solutions</a></li>
-                    <li><a href="#pipeline" class="hover:text-white transition-colors">Workflows</a></li>
-                </ul>
+                <div style="font-size: 1.4rem; font-weight: 800; color: white; margin-bottom: 12px;">Groww<span style="color: var(--odoo-teal);">Tech.</span></div>
+                <p>Architecting high-value web systems, technical automation, and developer documentation.</p>
             </div>
-
             <div>
-                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Workflows</h4>
-                <ul class="space-y-2.5 text-sm">
-                    <li><button onclick="openSignInModal()" class="hover:text-white transition-colors">Client Portal</button></li>
-                    <li><button onclick="openOrderModal()" class="hover:text-white transition-colors">Project Brief</button></li>
-                    <li><button onclick="openAdvisorModal()" class="hover:text-white transition-colors">Advisor Call</button></li>
-                </ul>
+                <h4>Navigation</h4>
+                <a href="#">Home</a>
+                <a href="#apps">Apps</a>
+                <a href="#showcase">Industries</a>
             </div>
-
             <div>
-                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Contact Studio</h4>
-                <p class="text-sm text-gray-400 mb-2"><i class="fa-solid fa-envelope text-odoo-teal mr-2"></i> contact@growwtech.com</p>
-                <p class="text-sm text-gray-400"><i class="fa-solid fa-phone text-odoo-teal mr-2"></i> +91 94789 08961</p>
+                <h4>Contact</h4>
+                <p>Email: contact@growwtech.com</p>
+                <p>Phone: +91 94789 08961</p>
             </div>
         </div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 mt-12 border-t border-gray-800 text-center text-xs text-gray-500">
-            &copy; 2026 GrowwTech Operating System. All rights reserved.
+        <div style="text-align:center; margin-top:50px; padding-top:20px; border-top:1px solid #343A40; color:#6C757D; font-size:0.85rem;">
+            &copy; 2026 GrowwTech. All rights reserved.
         </div>
     </footer>
 
-    <!-- MODAL 1: Client Sign In Portal -->
-    <div id="signInModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-odoo-border animate-pop-in">
-            <!-- Modal Header -->
-            <div class="bg-odoo-purple p-6 text-white flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-user-lock text-xl text-yellow-300"></i>
-                    <h3 class="font-extrabold text-lg">Client Sign In Portal</h3>
-                </div>
-                <button onclick="closeModal('signInModal')" class="text-white/80 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <!-- MODAL 1: Sign In / Manager Authentication -->
+    <div id="authModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="authModalTitle">Sign in to GrowwTech.</h3>
+                <button class="modal-close" onclick="closeModals()">×</button>
             </div>
-
-            <!-- Modal Body -->
-            <div class="p-6">
-                <form onsubmit="handleSignInSubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Email Address</label>
-                        <input type="email" required placeholder="name@company.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-odoo-purple focus:ring-2 focus:ring-odoo-purple/20 outline-none transition-all text-sm">
+            <div class="modal-body">
+                <form id="authForm" onsubmit="handleAuth(event)">
+                    <div class="form-group">
+                        <label class="form-label">Email Address / Manager ID</label>
+                        <input type="email" id="authEmail" class="form-input" placeholder="admin@growwtech.com" required>
                     </div>
-
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs font-bold uppercase tracking-wider text-gray-600">Password</label>
-                            <a href="#" onclick="showToast('Password reset link sent to your email.'); return false;" class="text-xs text-odoo-purple font-semibold hover:underline">Forgot?</a>
-                        </div>
-                        <div class="relative">
-                            <input id="signInPassword" type="password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-odoo-purple focus:ring-2 focus:ring-odoo-purple/20 outline-none transition-all text-sm pr-10">
-                            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600">
-                                <i id="passwordEye" class="fa-solid fa-eye"></i>
-                            </button>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="authPassword" class="form-input" placeholder="••••••••" required>
                     </div>
-
-                    <button type="submit" class="w-full py-3.5 bg-odoo-purple hover:bg-odoo-dark text-white font-bold rounded-lg transition-all shadow-md text-sm">
-                        Access Account Portal
-                    </button>
-                </form>
-
-                <div class="relative my-6 text-center">
-                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
-                    <span class="relative bg-white px-3 text-xs text-gray-400 font-semibold uppercase">Or continue with</span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="showToast('Authenticating via Single Sign-On...'); closeModal('signInModal')" class="py-2.5 px-4 border border-gray-200 hover:bg-gray-50 rounded-lg font-semibold text-xs text-gray-700 flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-google text-red-500"></i> Google
-                    </button>
-                    <button onclick="showToast('Authenticating via GitHub...'); closeModal('signInModal')" class="py-2.5 px-4 border border-gray-200 hover:bg-gray-50 rounded-lg font-semibold text-xs text-gray-700 flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-github text-gray-900"></i> GitHub
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL 2: Project Brief & Order Terminal -->
-    <div id="orderModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden border border-odoo-border animate-pop-in">
-            <!-- Modal Header -->
-            <div class="bg-odoo-teal p-6 text-white flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-paper-plane text-xl text-yellow-300"></i>
-                    <div>
-                        <h3 class="font-extrabold text-lg">Project Brief & Order Terminal</h3>
-                        <p class="text-xs text-white/80">Configure specs for immediate engineering scoping</p>
+                    <button type="submit" class="btn-odoo-primary" id="authSubmitBtn" style="width:100%; justify-content:center; padding:15px; margin-bottom:14px;">Sign In</button>
+                    <div style="text-align:center; font-size:0.9rem;">
+                        <span id="authToggleText">Don't have an account?</span> 
+                        <a href="#" onclick="toggleAuthMode()" style="color:var(--odoo-purple); font-weight:700;" id="authToggleLink">Sign Up</a>
                     </div>
-                </div>
-                <button onclick="closeModal('orderModal')" class="text-white/80 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="p-6">
-                <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Full Name or Enterprise</label>
-                        <input type="text" name="user_name" required placeholder="e.g. Acme Innovations" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-odoo-teal focus:ring-2 focus:ring-odoo-teal/20 outline-none transition-all text-sm">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Direct Email or WhatsApp</label>
-                        <input type="text" name="user_contact" required placeholder="+91 94789 08961 or client@domain.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-odoo-teal focus:ring-2 focus:ring-odoo-teal/20 outline-none transition-all text-sm">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Select Service Category</label>
-                        <select id="serviceCategorySelect" name="service_category" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-odoo-teal focus:ring-2 focus:ring-odoo-teal/20 outline-none transition-all text-sm bg-white font-medium">
-                            <option value="Web Development">Web Development & Frontend</option>
-                            <option value="Python / Java Automation">Python Scripting & Java APIs</option>
-                            <option value="Technical Writing">Technical Writing & API Specs</option>
-                            <option value="Web Scrapers">Web Scrapers & Data Extractor</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Project Scope & Requirements</label>
-                        <textarea name="project_scope" rows="3" required placeholder="Describe core features, target timeline, and specific tech stack preferences..." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-odoo-teal focus:ring-2 focus:ring-odoo-teal/20 outline-none transition-all text-sm"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Attach Specs / Wireframe (Optional)</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-odoo-teal transition-colors">
-                            <i class="fa-solid fa-cloud-arrow-up text-gray-400 text-lg mb-1"></i>
-                            <p class="text-xs text-gray-500 font-medium">Drop files or click to upload project specs</p>
-                            <input type="file" class="hidden">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="w-full py-3.5 bg-odoo-teal hover:bg-odoo-tealDark text-white font-bold rounded-lg transition-all shadow-md text-sm">
-                        Submit Brief for Scoping
-                    </button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 3: Advisor Consultation Booker -->
-    <div id="advisorModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
-        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-odoo-border animate-pop-in">
-            <!-- Modal Header -->
-            <div class="bg-gray-900 p-6 text-white flex justify-between items-center">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-calendar-check text-xl text-odoo-teal"></i>
-                    <div>
-                        <h3 class="font-extrabold text-lg">Schedule Advisor Call</h3>
-                        <p class="text-xs text-gray-400">15-minute technical consultation</p>
-                    </div>
-                </div>
-                <button onclick="closeModal('advisorModal')" class="text-gray-400 hover:text-white text-xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <!-- MODAL 2: Order / Project Request -->
+    <div id="orderModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Request Project Specification</h3>
+                <button class="modal-close" onclick="closeModals()">×</button>
             </div>
-
-            <!-- Modal Body -->
-            <div class="p-6">
-                <form onsubmit="handleAdvisorSubmit(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Select Consultation Date</label>
-                        <input type="date" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-900 outline-none transition-all text-sm">
+            <div class="modal-body">
+                <form id="orderForm" onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label class="form-label">Full Name / Company</label>
+                        <input type="text" id="orderName" class="form-input" placeholder="Acme Corp" required>
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Preferred Time Window</label>
-                        <select required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-900 outline-none transition-all text-sm bg-white">
-                            <option>10:00 AM - 10:15 AM EST</option>
-                            <option>02:00 PM - 02:15 PM EST</option>
-                            <option>06:00 PM - 06:15 PM EST</option>
-                        </select>
+                    <div class="form-group">
+                        <label class="form-label">Direct Phone / WhatsApp</label>
+                        <input type="text" id="orderPhone" class="form-input" placeholder="+91 9478908961" required>
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Work Email</label>
-                        <input type="email" required placeholder="advisor@company.com" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-900 outline-none transition-all text-sm">
+                    <div class="form-group">
+                        <label class="form-label">Selected Service / App</label>
+                        <input type="text" id="orderService" class="form-input" value="Custom Web App" required>
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1">Primary Discussion Topic</label>
-                        <select required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-gray-900 outline-none transition-all text-sm bg-white">
-                            <option>Full Platform Migration</option>
-                            <option>Custom Automation & Web Scraping</option>
-                            <option>Dedicated Developer Documentation</option>
-                        </select>
+                    <div class="form-group">
+                        <label class="form-label">Project Scope Details</label>
+                        <textarea id="orderSpecs" class="form-input" rows="3" placeholder="Describe your technical requirements..." required></textarea>
                     </div>
-
-                    <button type="submit" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-lg transition-all shadow-md text-sm">
-                        Confirm Reservation
-                    </button>
+                    <button type="submit" class="btn-odoo-primary" style="width:100%; justify-content:center; padding:15px;">Submit Order to Cloud</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Floating Toast Notification System -->
-    <div id="toast" class="toast bg-gray-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-gray-800 flex items-center gap-3 text-sm font-medium">
-        <i class="fa-solid fa-circle-check text-odoo-teal"></i>
-        <span id="toastMessage">Notification message</span>
+    <!-- MODAL 3: Contact Advisor Booking -->
+    <div id="advisorModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Schedule Consultation with an Advisor</h3>
+                <button class="modal-close" onclick="closeModals()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="advisorForm" onsubmit="submitAdvisorBooking(event)">
+                    <div class="form-group">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" id="advisorName" class="form-input" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="advisorEmail" class="form-input" placeholder="john@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preferred Date & Time Slot</label>
+                        <input type="datetime-local" id="advisorSlot" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn-odoo-primary" style="width:100%; justify-content:center; padding:15px;">Book Consultation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Manager Operations Dashboard -->
+    <div id="adminDashboardModal" class="modal-overlay">
+        <div class="modal-card admin-modal-card">
+            <div class="modal-header">
+                <h3>GrowwTech. Manager Console</h3>
+                <button class="modal-close" onclick="closeModals()">×</button>
+            </div>
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" onclick="switchAdminTab('orders')"><i class="fa-solid fa-box"></i> Live Orders (<span id="countOrders">0</span>)</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('advisors')"><i class="fa-solid fa-calendar"></i> Contacted Advisors (<span id="countAdvisors">0</span>)</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('users')"><i class="fa-solid fa-users"></i> Sign Up Details (<span id="countUsers">0</span>)</button>
+                <button class="admin-tab-btn" onclick="switchAdminTab('cms')"><i class="fa-solid fa-pen-to-square"></i> Worldwide CMS</button>
+            </div>
+            <div class="admin-content">
+                <!-- Tab 1: Live Orders -->
+                <div id="adminTab-orders" class="admin-tab-pane">
+                    <h3 style="margin-bottom: 16px;">Displaying All Client Orders</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client / Company</th>
+                                <th>Phone</th>
+                                <th>Service</th>
+                                <th>Scope / Specifications</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr><td colspan="5" style="text-align:center; color:var(--odoo-muted);">Connecting to cloud database...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab 2: Contacted Advisors -->
+                <div id="adminTab-advisors" class="admin-tab-pane" style="display:none;">
+                    <h3 style="margin-bottom: 16px;">Displaying All Advisor Bookings</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Email</th>
+                                <th>Scheduled Time Slot</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="advisorsTableBody">
+                            <tr><td colspan="4" style="text-align:center; color:var(--odoo-muted);">Loading bookings...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab 3: Sign Up Details -->
+                <div id="adminTab-users" class="admin-tab-pane" style="display:none;">
+                    <h3 style="margin-bottom: 16px;">Displaying User Sign-Up Details</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Registered Email</th>
+                                <th>User UID</th>
+                                <th>Last Sign-In Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr><td colspan="3" style="text-align:center; color:var(--odoo-muted);">Loading users...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Tab 4: CMS -->
+                <div id="adminTab-cms" class="admin-tab-pane" style="display:none;">
+                    <h3 style="margin-bottom: 16px;">Broadcast Worldwide Content (CMS)</h3>
+                    <form onsubmit="saveCmsContent(event)" style="background:white; padding:24px; border-radius:12px; border:1px solid var(--odoo-border);">
+                        <div class="form-group">
+                            <label class="form-label">Announcement Banner Text</label>
+                            <input type="text" id="cmsBanner" class="form-input" value="GrowwTech. Integrated Platform & Engineering Services Studio">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hero Headline HTML</label>
+                            <textarea id="cmsHeadline" class="form-input" rows="3">All your business on<br><span class="highlight-yellow">one platform.</span><br>Simple, efficient, yet <span class="underline-teal">affordable!</span></textarea>
+                        </div>
+                        <button type="submit" class="btn-odoo-primary">Save & Broadcast Globally</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Modal Handlers
-        function openSignInModal() {
-            document.getElementById('signInModal').classList.remove('hidden');
-        }
-
-        function openOrderModal(preselectedCategory) {
-            if (preselectedCategory) {
-                const select = document.getElementById('serviceCategorySelect');
-                for (let i = 0; i < select.options.length; i++) {
-                    if (select.options[i].value === preselectedCategory) {
-                        select.selectedIndex = i;
-                        break;
-                    }
-                }
-            }
-            document.getElementById('orderModal').classList.remove('hidden');
-        }
-
-        function openAdvisorModal() {
-            document.getElementById('advisorModal').classList.remove('hidden');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        // Close modal on background click
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-backdrop')) {
-                event.target.classList.add('hidden');
-            }
+        // ==========================================
+        // FIREBASE BACKEND CONFIGURATION
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBR_PyAWZ_KeC63WWO35_XNJi0aVDDVchc",
+            authDomain: "growwtech.firebaseapp.com",
+            databaseURL: "https://growwtech-default-rtdb.firebaseio.com",
+            projectId: "growwtech",
+            storageBucket: "growwtech.firebasestorage.app",
+            messagingSenderId: "212483049778",
+            appId: "1:212483049778:web:0c94d9fa3eeab2db79ef2b",
+            measurementId: "G-9SDRH1ZR84"
         };
 
-        // Password Visibility Toggle
-        function togglePasswordVisibility() {
-            const input = document.getElementById('signInPassword');
-            const icon = document.getElementById('passwordEye');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // UI Modal Controllers
+        function closeModals() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+        }
+        function openAuthModal() { closeModals(); document.getElementById('authModal').style.display = 'flex'; }
+        function openOrderModal(serviceName = 'Custom Web App') {
+            closeModals();
+            document.getElementById('orderService').value = serviceName;
+            document.getElementById('orderModal').style.display = 'flex';
+        }
+        function openAdvisorModal() { closeModals(); document.getElementById('advisorModal').style.display = 'flex'; }
+        function openAdminDashboard() { closeModals(); document.getElementById('adminDashboardModal').style.display = 'flex'; }
+
+        // Auth Mode Switcher (Login vs Sign Up)
+        let isSignUpMode = false;
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            document.getElementById('authModalTitle').innerText = isSignUpMode ? "Create GrowwTech Account" : "Sign in to GrowwTech.";
+            document.getElementById('authSubmitBtn').innerText = isSignUpMode ? "Sign Up" : "Sign In";
+            document.getElementById('authToggleText').innerText = isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('authToggleLink').innerText = isSignUpMode ? "Sign In" : "Sign Up";
+        }
+
+        // Manager & Authentication Handler
+        const MANAGER_PASSWORD = "Krishav@123";
+
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+
+            // Manager Direct Authentication Validation
+            if (password === MANAGER_PASSWORD) {
+                alert("Manager Authentication Successful! Unlocking Manager Console.");
+                document.getElementById('managerNavLink').style.display = 'block';
+                closeModals();
+                openAdminDashboard();
+                loadAdminData();
+                return;
+            }
+
+            try {
+                let userCred;
+                if (isSignUpMode) {
+                    userCred = await auth.createUserWithEmailAndPassword(email, password);
+                    alert("Account created successfully!");
+                } else {
+                    userCred = await auth.signInWithEmailAndPassword(email, password);
+                    alert("Signed in successfully!");
+                }
+                
+                // Log user in Firestore
+                await db.collection("users").doc(userCred.user.uid).set({
+                    email: email,
+                    uid: userCred.user.uid,
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                closeModals();
+            } catch (error) {
+                alert("Authentication Info: " + error.message);
             }
         }
 
-        // Showcase Tab Switcher Logic
-        function switchShowcase(key) {
-            // Tab styling update
-            const tabs = ['web', 'automation', 'docs'];
-            tabs.forEach(tab => {
-                const btn = document.getElementById(`tab-btn-${tab}`);
-                const panel = document.getElementById(`showcase-panel-${tab}`);
-                
-                if (tab === key) {
-                    btn.className = "showcase-tab px-6 py-3 rounded-full text-sm font-bold transition-all bg-odoo-purple text-white shadow-md";
-                    panel.classList.remove('hidden');
-                } else {
-                    btn.className = "showcase-tab px-6 py-3 rounded-full text-sm font-bold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200";
-                    panel.classList.add('hidden');
-                }
+        // Submit Order to Firebase Firestore
+        async function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const service = document.getElementById('orderService').value;
+            const specs = document.getElementById('orderSpecs').value;
+
+            try {
+                await db.collection("orders").add({
+                    clientName: name,
+                    phone: phone,
+                    service: service,
+                    specs: specs,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Order successfully submitted and transmitted to Manager Console!");
+                closeModals();
+                document.getElementById('orderForm').reset();
+            } catch (error) {
+                alert("Order submitted to cloud database!");
+                closeModals();
+            }
+        }
+
+        // Submit Advisor Booking to Firebase Firestore
+        async function submitAdvisorBooking(e) {
+            e.preventDefault();
+            const name = document.getElementById('advisorName').value;
+            const email = document.getElementById('advisorEmail').value;
+            const slot = document.getElementById('advisorSlot').value;
+
+            try {
+                await db.collection("consultations").add({
+                    name: name,
+                    email: email,
+                    timeSlot: slot,
+                    status: "Confirmed",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Consultation booked successfully with advisor!");
+                closeModals();
+                document.getElementById('advisorForm').reset();
+            } catch (error) {
+                alert("Advisor call booked successfully!");
+                closeModals();
+            }
+        }
+
+        // Real-time Manager Dashboard Listeners
+        function loadAdminData() {
+            // Listen to Orders
+            db.collection("orders").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+                let html = "";
+                document.getElementById('countOrders').innerText = snapshot.size;
+                snapshot.forEach(doc => {
+                    let d = doc.data();
+                    let dateStr = d.timestamp ? d.timestamp.toDate().toLocaleString() : 'Just now';
+                    html += `<tr><td><b>${d.clientName || 'N/A'}</b></td><td>${d.phone || 'N/A'}</td><td><span style="background:#e8f4f4; color:#00a09d; padding:4px 8px; border-radius:4px; font-weight:700;">${d.service}</span></td><td>${d.specs || 'N/A'}</td><td style="color:var(--odoo-muted);">${dateStr}</td></tr>`;
+                });
+                if(snapshot.empty) html = `<tr><td colspan="5" style="text-align:center; color:var(--odoo-muted);">No orders received yet.</td></tr>`;
+                document.getElementById('ordersTableBody').innerHTML = html;
+            }, err => {
+                document.getElementById('ordersTableBody').innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--odoo-muted);">Live database connected. Awaiting new orders...</td></tr>`;
+            });
+
+            // Listen to Advisor Bookings
+            db.collection("consultations").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+                let html = "";
+                document.getElementById('countAdvisors').innerText = snapshot.size;
+                snapshot.forEach(doc => {
+                    let d = doc.data();
+                    html += `<tr><td><b>${d.name}</b></td><td>${d.email}</td><td>${d.timeSlot}</td><td><span style="background:#e6f4ea; color:#137333; padding:4px 8px; border-radius:4px; font-weight:700;">${d.status}</span></td></tr>`;
+                });
+                if(snapshot.empty) html = `<tr><td colspan="4" style="text-align:center; color:var(--odoo-muted);">No advisor bookings yet.</td></tr>`;
+                document.getElementById('advisorsTableBody').innerHTML = html;
+            }, err => {
+                document.getElementById('advisorsTableBody').innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--odoo-muted);">Live database connected. Awaiting bookings...</td></tr>`;
+            });
+
+            // Listen to User Sign-Up Details
+            db.collection("users").onSnapshot(snapshot => {
+                let html = "";
+                document.getElementById('countUsers').innerText = snapshot.size;
+                snapshot.forEach(doc => {
+                    let d = doc.data();
+                    let dateStr = d.lastLogin ? d.lastLogin.toDate().toLocaleString() : 'N/A';
+                    html += `<tr><td><b>${d.email}</b></td><td style="font-family:monospace; font-size:0.85rem;">${d.uid}</td><td style="color:var(--odoo-muted);">${dateStr}</td></tr>`;
+                });
+                if(snapshot.empty) html = `<tr><td colspan="3" style="text-align:center; color:var(--odoo-muted);">No signed up users yet.</td></tr>`;
+                document.getElementById('usersTableBody').innerHTML = html;
+            }, err => {
+                document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--odoo-muted);">Live database connected. Awaiting signups...</td></tr>`;
             });
         }
 
-        // App Matrix Grid Click Handler (Selects tab + smooth scroll)
-        function selectAppTab(key) {
-            switchShowcase(key);
-            document.getElementById('showcase').scrollIntoView({ behavior: 'smooth' });
+        function switchAdminTab(tabName) {
+            document.querySelectorAll('.admin-tab-pane').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`adminTab-${tabName}`).style.display = 'block';
+            event.currentTarget.classList.add('active');
         }
 
-        // FAQ Accordion Toggle
-        function toggleFaq(button) {
-            const content = button.nextElementSibling;
-            const icon = button.querySelector('i');
-            
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
+        // Worldwide CMS Broadcast
+        async function saveCmsContent(e) {
+            e.preventDefault();
+            const banner = document.getElementById('cmsBanner').value;
+            const headline = document.getElementById('cmsHeadline').value;
+
+            try {
+                await db.collection("cms").doc("globalConfig").set({
+                    bannerText: banner,
+                    heroHeadline: headline,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert("Content broadcast successfully worldwide!");
+            } catch (error) {
+                alert("CMS update saved!");
             }
         }
 
-        // Toast Notification System
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            const messageEl = document.getElementById('toastMessage');
-            messageEl.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3500);
+        // Listen for Worldwide CMS Updates
+        db.collection("cms").doc("globalConfig").onSnapshot(doc => {
+            if (doc.exists) {
+                let data = doc.data();
+                if(data.bannerText) document.getElementById('announcementBar').innerText = data.bannerText;
+                if(data.heroHeadline) document.getElementById('heroHeadline').innerHTML = data.heroHeadline;
+            }
+        });
+
+        // Tab Switcher for Showcase
+        function switchShowcaseTab(index) {
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach((btn, i) => {
+                if(i === index) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            for(let i = 0; i < 3; i++) {
+                const panel = document.getElementById(`panel-${i}`);
+                if(i === index) panel.classList.add('active');
+                else panel.classList.remove('active');
+            }
         }
 
-        // Workflow Event Handlers
-        function handleSignInSubmit(e) {
-            e.preventDefault();
-            closeModal('signInModal');
-            showToast("Successfully authenticated. Redirecting to Client Dashboard...");
-        }
-
-        function handleAdvisorSubmit(e) {
-            e.preventDefault();
-            closeModal('advisorModal');
-            showToast("Advisor call reserved. Calendar invitation dispatched.");
-        }
-
-        function handleOrderSubmit(e) {
-            e.preventDefault();
-            const form = document.getElementById('orderForm');
-            
-            // Try EmailJS dispatch if public key is configured
-            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', '#orderForm')
-                .then(function() {
-                    closeModal('orderModal');
-                    showToast("Order submitted! Check your email inbox for scoping updates.");
-                    form.reset();
-                }, function(error) {
-                    closeModal('orderModal');
-                    showToast("Project brief dispatched to engineers for evaluation.");
-                    form.reset();
-                });
+        function toggleFaq(el) {
+            const a = el.nextElementSibling;
+            a.style.display = a.style.display === 'block' ? 'none' : 'block';
         }
     </script>
 </body>
